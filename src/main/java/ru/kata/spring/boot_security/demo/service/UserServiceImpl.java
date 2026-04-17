@@ -10,13 +10,14 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
+
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -62,29 +63,30 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User user) {
-        User exitingUser = getById(user.getId());
-        if (exitingUser != null) {
-            exitingUser.setFirstName(user.getFirstName());
-            exitingUser.setFirstName(user.getLastName());
-            exitingUser.setEmail(user.getEmail());
-            exitingUser.setUsername(user.getUsername());
+        User existingUser = getById(user.getId());
+        if (existingUser != null) {
+            existingUser.setFirstName(user.getFirstName());
+            existingUser.setLastName(user.getLastName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setUsername(user.getUsername());
 
-            if (user.getPassword() != null || !user.getPassword().isEmpty()) {
-                exitingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
             }
 
             if (user.getRoles() != null) {
-                exitingUser.setRoles(user.getRoles());
+                existingUser.setRoles(user.getRoles());
             }
 
-            userRepository.save(exitingUser);
+            userRepository.save(existingUser);
         }
     }
 
-
+    @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUsersByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + username));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + username));
     }
 
     @PostConstruct
@@ -127,10 +129,6 @@ public class UserServiceImpl implements UserService {
             );
 
             save(user);
-            }
         }
-
     }
-
 }
-
