@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
@@ -32,27 +34,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .logoutSuccessUrl("/")
                 .permitAll();
     }
 
-    // аутентификация inMemory
     @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("user")
-                        .roles("USER")
-                        .build();
-
-        UserDetails admin =
-                User.withDefaultPasswordEncoder()
-                        .username("admin")
-                        .password("admin")
-                        .roles("ADMIN")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
+//    // аутентификация inMemory
+//    @Bean
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user =
+//                User.withDefaultPasswordEncoder()
+//                        .username("user")
+//                        .password("user")
+//                        .roles("USER")
+//                        .build();
+//
+//        UserDetails admin =
+//                User.withDefaultPasswordEncoder()
+//                        .username("admin")
+//                        .password("admin")
+//                        .roles("ADMIN")
+//                        .build();
+//
+//        return new InMemoryUserDetailsManager(user, admin);
+//    }
 }
