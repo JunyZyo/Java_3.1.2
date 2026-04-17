@@ -26,7 +26,8 @@ public class UserController {
         model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
         model.addAttribute("allRoles", roleService.findAll());
         model.addAttribute("newUser", new User());
-        return "admin/users";
+//        return "admin/users";
+        return "admin";
     }
 
     @PostMapping("/users")
@@ -35,7 +36,8 @@ public class UserController {
             user.setRoles(roleService.findByIds(roleIds));
         }
         userService.save(user);
-        return "redirect:/admin/users";
+//        return "redirect:/admin/users";
+        return "redirect:/admin";
     }
 
     @PostMapping("/users/{id}")
