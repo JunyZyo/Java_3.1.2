@@ -8,7 +8,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/profile")
 public class UserProfileController {
 
     private final UserService userService;

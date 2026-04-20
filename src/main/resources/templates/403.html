@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>403 - Нет доступа</h1>
+<p>У вас недостаточно прав для перехода по этой странице</p>
+<a href="/user">В профиль</a>
+<br><br>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
+</form>
+</body>
+</html>

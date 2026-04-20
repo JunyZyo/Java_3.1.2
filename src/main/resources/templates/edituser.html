@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+</head>
+<body>
+<h1>Изменить пользователя</h1>
+
+<form th:action="@{/admin/users/{id}(id=${user.id})}" method="post" th:object="${user}">
+    <input type="hidden" th:field="*{id}">
+
+    <div>
+        <label>First Name:</label>
+        <input type="text" th:field="*{firstName}" required>
+    </div>
+    <br>
+    <div>
+        <label>Last Name:</label>
+        <input type="text" th:field="*{lastName}" required>
+    </div>
+    <br>
+    <div>
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required>
+    </div>
+    <br>
+    <div>
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" required>
+    </div>
+    <br>
+    <div>
+        <label>Password:</label>
+        <input type="password" th:field="*{password}">
+    </div>
+    <br>
+    <div>
+        <label>Roles:</label><br>
+        <div th:each="role : ${allRoles}">
+            <input type="checkbox" name="roleIds"
+                   th:value="${role.id}"
+                   th:checked="${user.roles.contains(role)}">
+            <label th:text="${role.name}">ROLE_USER</label>
+        </div>
+    </div>
+    <br>
+    <button type="submit">Изменить</button>
+    <a href="/admin/users">Отмена</a>
+</form>
+
+<br>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
+</form>
+
+</body>
+</html>

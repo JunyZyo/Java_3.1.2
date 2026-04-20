@@ -4,9 +4,99 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>Admin, welcome spring boot security page!</h1>
+
+<h1>Панель админа</h1>
+
+<p>Welcome, <strong sec:authentication="name">Админ</strong>!</p>
+<p>Roles: <span sec:authentication="authorities">[ROLE_ADMIN]</span></p>
+
+<div>
+    <a href="/user">Мой профиль</a>
+    <form th:action="@{/logout}" method="post" style="display: inline; margin-left: 20px;">
+        <button type="submit">Выйти</button>
+    </form>
+</div>
+
+<hr>
 
 
+<div th:if="${success}" style="color: green;" th:text="${success}"></div>
+<div th:if="${error}" style="color: red;" th:text="${error}"></div>
+
+
+<h2>Добавить пользователя</h2>
+<form th:action="@{/admin/users}" method="post" th:object="${newUser}">
+    <div>
+        <label>First Name:</label>
+        <input type="text" th:field="*{firstName}" required>
+    </div>
+    <br>
+    <div>
+        <label>Last Name:</label>
+        <input type="text" th:field="*{lastName}" required>
+    </div>
+    <br>
+    <div>
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required>
+    </div>
+    <br>
+    <div>
+        <label>Username:</label>
+        <input type="text" th:field="*{username}" required>
+    </div>
+    <br>
+    <div>
+        <label>Password:</label>
+        <input type="password" th:field="*{password}" required>
+    </div>
+    <br>
+    <div>
+        <label>Roles:</label><br>
+        <div th:each="role : ${allRoles}">
+            <input type="checkbox" name="roleIds" th:value="${role.id}">
+            <label th:text="${role.name}">ROLE_USER</label>
+        </div>
+    </div>
+    <br>
+    <button type="submit">Добавить</button>
+</form>
+
+<hr>
+
+
+<h2>Все пользователи</h2>
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.firstName}">John</td>
+        <td th:text="${user.lastName}">Doe</td>
+        <td th:text="${user.email}">john@example.com</td>
+        <td th:text="${user.username}">johndoe</td>
+        <td>
+            <span th:each="role : ${user.roles}" th:text="${role.name} + ' '">ROLE_USER</span>
+        </td>
+        <td>
+            <a th:href="@{/admin/users/{id}/edit(id=${user.id})}">Изменить</a>
+            <form th:action="@{/admin/users/{id}/delete(id=${user.id})}" method="post" style="display: inline;">
+                <button type="submit" onclick="return confirm('Удалить пользователя?')">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>

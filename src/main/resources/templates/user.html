@@ -4,9 +4,34 @@
     <title>Spring Security Example</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
+<h1>Профиль пользователя</h1>
 
+<p>Добро пожаловать, <strong sec:authentication="name">User</strong>!</p>
+<p>Ваша роль: <span sec:authentication="authorities">Пользователь</span></p>
 
+<hr>
+
+<div th:if="${user}">
+    <p><strong>ID:</strong> <span th:text="${user.id}">1</span></p>
+    <p><strong>First Name:</strong> <span th:text="${user.firstName}">Ivan</span></p>
+    <p><strong>Last Name:</strong> <span th:text="${user.lastName}">Ivanov</span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}">ivan@example.com</span></p>
+    <p><strong>Username:</strong> <span th:text="${user.username}">ivanivanov</span></p>
+    <p><strong>Roles:</strong>
+        <span th:each="role : ${user.roles}" th:text="${role.name} + ' '">Пользователь</span>
+    </p>
+</div>
+
+<hr>
+
+<div sec:authorize="hasRole('ADMIN')">
+    <a href="/admin/users">В панель админа</a>
+    <br><br>
+</div>
+
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
+</form>
 
 </body>
 </html>
