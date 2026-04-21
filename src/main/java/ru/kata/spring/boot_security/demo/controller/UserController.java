@@ -21,6 +21,6 @@ public class UserController {
     @GetMapping
     public String showUserProfile(Model model, Principal principal) {
         model.addAttribute("user", userService.findByUsername(principal.getName()));
-        return "user";  // ← возвращает шаблон user.html
+        return "user";
     }
 }

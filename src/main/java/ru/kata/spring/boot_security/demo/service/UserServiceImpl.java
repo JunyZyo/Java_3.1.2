@@ -85,8 +85,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + username));
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден: " + username));
     }
 
     @PostConstruct
@@ -105,28 +104,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             adminRoles.add(adminRole);
             adminRoles.add(userRole);
 
-            User admin = new User(
-                    "Admin",
-                    "Adminov",
-                    "admin@mail.ru",
-                    "admin",
-                    "admin",
-                    adminRoles
-            );
+            User admin = new User("Admin", "Adminov", "admin@mail.ru", "admin", "admin", adminRoles);
 
             save(admin);
 
             Set<Role> userRoles = new HashSet<>();
             userRoles.add(userRole);
 
-            User user = new User(
-                    "User",
-                    "Userov",
-                    "user@mail.ru",
-                    "user",
-                    "user",
-                    userRoles
-            );
+            User user = new User("User", "Userov", "user@mail.ru", "user", "user", userRoles);
 
             save(user);
         }

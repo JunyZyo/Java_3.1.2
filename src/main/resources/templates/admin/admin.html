@@ -7,8 +7,8 @@
 
 <h1>Панель админа</h1>
 
-<p>Welcome, <strong sec:authentication="name">Админ</strong>!</p>
-<p>Roles: <span sec:authentication="authorities">[ROLE_ADMIN]</span></p>
+<p>Добро пожаловать, <strong sec:authentication="name">Админ</strong>!</p>
+<p>Роли: <span sec:authentication="authorities">Админ</span></p>
 
 <div>
     <a href="/user">Мой профиль</a>
@@ -27,35 +27,35 @@
 <h2>Добавить пользователя</h2>
 <form th:action="@{/admin/users}" method="post" th:object="${newUser}">
     <div>
-        <label>First Name:</label>
+        <label>Имя:</label>
         <input type="text" th:field="*{firstName}" required>
     </div>
     <br>
     <div>
-        <label>Last Name:</label>
+        <label>Фамилия:</label>
         <input type="text" th:field="*{lastName}" required>
     </div>
     <br>
     <div>
-        <label>Email:</label>
+        <label>Почта:</label>
         <input type="email" th:field="*{email}" required>
     </div>
     <br>
     <div>
-        <label>Username:</label>
+        <label>Логин:</label>
         <input type="text" th:field="*{username}" required>
     </div>
     <br>
     <div>
-        <label>Password:</label>
+        <label>Пароль:</label>
         <input type="password" th:field="*{password}" required>
     </div>
     <br>
     <div>
-        <label>Roles:</label><br>
+        <label>Роли:</label><br>
         <div th:each="role : ${allRoles}">
             <input type="checkbox" name="roleIds" th:value="${role.id}">
-            <label th:text="${role.name}">ROLE_USER</label>
+            <label th:text="${role.name}">Пользователь</label>
         </div>
     </div>
     <br>
@@ -70,23 +70,23 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Username</th>
-        <th>Roles</th>
-        <th>Actions</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Почта</th>
+        <th>Логин</th>
+        <th>Роли</th>
+        <th>Действия</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
         <td th:text="${user.id}">1</td>
-        <td th:text="${user.firstName}">John</td>
-        <td th:text="${user.lastName}">Doe</td>
-        <td th:text="${user.email}">john@example.com</td>
-        <td th:text="${user.username}">johndoe</td>
+        <td th:text="${user.firstName}">Ivan</td>
+        <td th:text="${user.lastName}">Ivanov</td>
+        <td th:text="${user.email}">ivan@mail.ru</td>
+        <td th:text="${user.username}">ivanivanov</td>
         <td>
-            <span th:each="role : ${user.roles}" th:text="${role.name} + ' '">ROLE_USER</span>
+            <span th:each="role : ${user.roles}" th:text="${role.name} + ' '">Пользователь</span>
         </td>
         <td>
             <a th:href="@{/admin/users/{id}/edit(id=${user.id})}">Изменить</a>

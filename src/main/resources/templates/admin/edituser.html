@@ -11,37 +11,37 @@
     <input type="hidden" th:field="*{id}">
 
     <div>
-        <label>First Name:</label>
+        <label>Имя:</label>
         <input type="text" th:field="*{firstName}" required>
     </div>
     <br>
     <div>
-        <label>Last Name:</label>
+        <label>Фамилия:</label>
         <input type="text" th:field="*{lastName}" required>
     </div>
     <br>
     <div>
-        <label>Email:</label>
+        <label>Почта:</label>
         <input type="email" th:field="*{email}" required>
     </div>
     <br>
     <div>
-        <label>Username:</label>
+        <label>Логин:</label>
         <input type="text" th:field="*{username}" required>
     </div>
     <br>
     <div>
-        <label>Password:</label>
+        <label>Пароль:</label>
         <input type="password" th:field="*{password}">
     </div>
     <br>
     <div>
-        <label>Roles:</label><br>
+        <label>Роли:</label><br>
         <div th:each="role : ${allRoles}">
             <input type="checkbox" name="roleIds"
                    th:value="${role.id}"
                    th:checked="${user.roles.contains(role)}">
-            <label th:text="${role.name}">ROLE_USER</label>
+            <label th:text="${role.name}">Пользователь</label>
         </div>
     </div>
     <br>

@@ -4,8 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.UserService;
+
 import java.security.Principal;
 
 @Controller
@@ -26,7 +27,7 @@ public class AdminController {
         model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
         model.addAttribute("allRoles", roleService.findAll());
         model.addAttribute("newUser", new User());
-        return "admin";
+        return "admin/admin";
     }
 
     @PostMapping("/users")
@@ -47,12 +48,11 @@ public class AdminController {
         model.addAttribute("user", user);
         model.addAttribute("allRoles", roleService.findAll());
         model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
-        return "edituser";
+        return "admin/edituser";
     }
 
     @PostMapping("/users/{id}")
-    public String updateUser(@PathVariable Long id, @ModelAttribute User user,
-                             @RequestParam(required = false) Long[] roleIds) {
+    public String updateUser(@PathVariable Long id, @ModelAttribute User user, @RequestParam(required = false) Long[] roleIds) {
         user.setId(id);
         if (roleIds != null && roleIds.length > 0) {
             user.setRoles(roleService.findByIds(roleIds));
