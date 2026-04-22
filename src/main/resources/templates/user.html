@@ -6,11 +6,6 @@
 <body>
 <h1>Профиль</h1>
 
-<p>Добро пожаловать, <strong sec:authentication="name">User</strong>!</p>
-<p>Ваша роль: <span sec:authentication="authorities">Пользователь</span></p>
-
-<hr>
-
 <div th:if="${user}">
     <p><strong>ID:</strong> <span th:text="${user.id}">1</span></p>
     <p><strong>Имя:</strong> <span th:text="${user.firstName}">Ivan</span></p>
